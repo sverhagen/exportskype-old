@@ -1,0 +1,3 @@
+Export Skype
+Little command-line tool to export Skype chat history to another format. Implemented format is Trillian XML log format, but other formats may easily be adding implementations of the OutputHandler interface
+Copyright 2012 Sander Verhagen (verhagen@sander.com)

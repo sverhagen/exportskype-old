@@ -117,4 +117,8 @@
             </plugin>
         </plugins>
     </build>
+    <scm>
+        <url>https://github.com/sverhagen/Export-Skype.git</url>
+        <connection>https://github.com/sverhagen/Export-Skype.git</connection>
+    </scm>
 </project>

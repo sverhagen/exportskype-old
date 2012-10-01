@@ -3,3 +3,4 @@
 /.project
 /target/
 /output/
+/dependency-reduced-pom.xml

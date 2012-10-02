@@ -63,7 +63,11 @@ public class MessagesSqliteDaoImpl implements MessagesDao
         ResultSet resultSet = statement.executeQuery(sql);
         while (resultSet.next())
         {
-            messages.add(new Message(resultSet));
+            Message message = new Message(resultSet);
+            if (!message.isEmpty())
+            {
+                messages.add(message);
+            }
         }
         return messages;
     }

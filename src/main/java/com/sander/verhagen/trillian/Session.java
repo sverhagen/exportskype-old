@@ -14,8 +14,6 @@
 
 package com.sander.verhagen.trillian;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import com.sander.verhagen.domain.Chat;
 
 /**
@@ -58,8 +56,8 @@ abstract public class Session implements XML
         result.append("type=\"" + type + "\" ");
         result.append("time=\"" + time + "\" ");
         result.append("medium=\"SKYPE\" ");
-        result.append("to=\"" + StringEscapeUtils.escapeXml(chat.getTo()) + "\" ");
-        result.append("from=\"" + StringEscapeUtils.escapeXml(chat.getFrom()) + "\" ");
+        result.append("to=\"" + EscapeHelper.escape(chat.getTo()) + "\" ");
+        result.append("from=\"" + EscapeHelper.escape(chat.getFrom()) + "\" ");
         result.append("/>");
         return result.toString();
     }

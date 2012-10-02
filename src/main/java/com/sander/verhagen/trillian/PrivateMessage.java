@@ -14,8 +14,6 @@
 
 package com.sander.verhagen.trillian;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import com.sander.verhagen.domain.Chat;
 import com.sander.verhagen.domain.Message;
 
@@ -69,10 +67,10 @@ public class PrivateMessage implements XML
         result.append("type=\"" + type + "\" ");
         result.append("time=\"" + message.getTime() + "\" ");
         result.append("medium=\"SKYPE\" ");
-        result.append("to=\"" + StringEscapeUtils.escapeXml(to) + "\" ");
-        result.append("from=\"" + StringEscapeUtils.escapeXml(from) + "\" ");
-        result.append("from_display=\"" + StringEscapeUtils.escapeXml(fromDisplay) + "\"");
-        result.append("text=\"" + StringEscapeUtils.escapeXml(message.getBody()) + "\"");
+        result.append("to=\"" + EscapeHelper.escape(to) + "\" ");
+        result.append("from=\"" + EscapeHelper.escape(from) + "\" ");
+        result.append("from_display=\"" + EscapeHelper.escape(fromDisplay) + "\" ");
+        result.append("text=\"" + EscapeHelper.escape(message.getBody()) + "\" ");
         result.append("/>");
         return result.toString();
     }

@@ -43,7 +43,7 @@ public class TrillianOutputHandler implements OutputHandler
      */
     private void writeFiles(Map<String, List<XML>> contactXmls)
     {
-        File directory = new File("./output/SKYPE");
+        File directory = new File("./output/SKYPE/Query");
         directory.mkdirs();
         for (String qualifiedContact : contactXmls.keySet())
         {

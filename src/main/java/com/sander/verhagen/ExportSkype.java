@@ -63,15 +63,13 @@ public class ExportSkype
 
     private void execute()
     {
+        DatabaseConnectionHelper connectionHelper = new DatabaseConnectionHelper();
+        Connection connection = connectionHelper.open();
+        accountsDao = new AccountsSqliteDaoImpl(connection);
+        chatsDao = new ChatsSqliteDaoImpl(connection);
+        messagesDao = new MessagesSqliteDaoImpl(connection);
         try
         {
-            DatabaseConnectionHelper connectionHelper = new DatabaseConnectionHelper();
-            Connection connection = connectionHelper.open();
-
-            accountsDao = new AccountsSqliteDaoImpl(connection);
-            chatsDao = new ChatsSqliteDaoImpl(connection);
-            messagesDao = new MessagesSqliteDaoImpl(connection);
-
             String skypeName = getSkypeName();
             Chat.setHomeUser(skypeName);
 
@@ -80,13 +78,15 @@ public class ExportSkype
             OutputHandler outputHandler = new TrillianOutputHandler();
             outputHandler.output(qualifiedChats);
 
-            connectionHelper.close();
-
             log.info("All done");
         }
         catch (SQLException exception)
         {
             throw new RuntimeException("Problem with database access", exception);
+        }
+        finally
+        {
+            connectionHelper.close();
         }
     }
 

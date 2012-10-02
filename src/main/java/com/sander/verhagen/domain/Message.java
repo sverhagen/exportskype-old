@@ -17,6 +17,8 @@ package com.sander.verhagen.domain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Message entity as pulled from the Skype database.
  * 
@@ -100,5 +102,15 @@ public class Message
     public String getChatName()
     {
         return chatName;
+    }
+
+    /**
+     * Determine if the message is empty.
+     * 
+     * @return <code>true</code> if message empty; <code>false</code> if message contains something
+     */
+    public boolean isEmpty()
+    {
+        return StringUtils.isBlank(body);
     }
 }

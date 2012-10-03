@@ -98,7 +98,7 @@
                 </executions>
                 <configuration>
                     <transformers>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer" />
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"></transformer>
                         <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
                             <addHeader>true</addHeader>
                         </transformer>
@@ -112,6 +112,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <configuration>
+                    <goals>com.github.github:downloads-maven-plugin:upload</goals>
                     <releaseProfiles>github-upload</releaseProfiles>
                 </configuration>
             </plugin>

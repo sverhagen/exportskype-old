@@ -32,7 +32,7 @@
       <section id="main_content" class="inner">
         <h1>Export Skype</h1>
 
-<p>Little command-line tool to export Skype chat history to another format. Implemented format is Trillian XML log format, but other formats may easily be supported by adding implementations of the OutputHandler interface.</p>
+<p>Little command-line tool to export Skype chat history to another format. Implemented format is Trillian XML log format. <a href="http://www.trillian.im/" target="_blank">Trillian</a> is a gratis multiprotocol instant messaging application.</p>
 
         <h2>License</h2>
 
@@ -53,12 +53,12 @@
 <li>No graphical user interface (command line output only)</li>
 <li>If more than one Skype account found, only the first one is used</li>
 <li>Chats with multiple partners are only exported for one of those partners; i.e. very limited multi-partner support</li>
-<li>Based on Skype internal database, and not on its API, which may thus be vulnerable for regression</li>
+<li>Based on Skype internal database, and not on its API, and may thus be vulnerable for regression</li>
 </ul>
 
 	<h2>Other Formats</h2>
 
-<p>Other formats than Trillian XML log format may easily be supported by adding implementations of the OutputHandler interface</p>
+<p>Other formats than Trillian XML log format may easily be supported by adding implementations of the <code><a href="https://github.com/sverhagen/Export-Skype/blob/master/src/main/java/com/sander/verhagen/output/OutputHandler.java">OutputHandler</a></code> interface.</p>
 
       </section>
     </div>

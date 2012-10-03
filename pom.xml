@@ -154,7 +154,6 @@
                                 <configuration>
                                     <description>${project.version} release of ${project.name}</description>
                                     <dryRun>false</dryRun>
-                                    <includeAttached>true</includeAttached>
                                     <override>true</override>
                                     <repositoryName>Export-Skype</repositoryName>
                                     <repositoryOwner>sverhagen</repositoryOwner>

@@ -19,10 +19,10 @@
           <a id="forkme_banner" href="https://github.com/sverhagen/Export-Skype">View on GitHub</a>
 
           <h1 id="project_title">Export-skype</h1>
-          <h2 id="project_tagline">Little command-line tool to export Skype chat history to another format. Implemented format is Trillian XML log format, but other formats may easily be supported by adding implementations of the OutputHandler interface.</h2>
+          <h2 id="project_tagline">Little tool to export Skype chat history to Trillian XML log format</h2>
 
             <section id="downloads">
-              <a href="https://github.com/sverhagen/Export-Skype/downloads">Download executable</a>
+              <a class="jar_download_link" href="https://github.com/sverhagen/Export-Skype/downloads">Download executable</a>
             </section>
         </header>
     </div>
@@ -33,6 +33,33 @@
         <h1>Export Skype</h1>
 
 <p>Little command-line tool to export Skype chat history to another format. Implemented format is Trillian XML log format, but other formats may easily be supported by adding implementations of the OutputHandler interface.</p>
+
+        <h2>License</h2>
+
+<p>Licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License</a>, thus making it free software and distributed &quot;as-is&quot;.</p>
+
+	<h2>Usage</h2>
+
+<p>Make sure you have Java installed. Download an <a href="https://github.com/sverhagen/Export-Skype/downloads">executable JAR file</a> and execute it; either:
+<ul>
+<li>By double-clicking on the executable JAR file</li>
+<li>In a Command Prompt. This method allows you to see the progress <br/> <code>java -jar <span class="variable">&lt;path to executable JAR file&gt;</span>/exportskype-<span class="variable">&lt;version&gt;</span>.jar</code></li>
+</ul>
+
+	<h2>Limitations</h2>
+
+<ul>
+<li>Only tested for Windows</li>
+<li>No graphical user interface (command line output only)</li>
+<li>If more than one Skype account found, only the first one is used</li>
+<li>Chats with multiple partners are only exported for one of those partners; i.e. very limited multi-partner support</li>
+<li>Based on Skype internal database, and not on its API, which may thus be vulnerable for regression</li>
+</ul>
+
+	<h2>Other Formats</h2>
+
+<p>Other formats than Trillian XML log format may easily be supported by adding implementations of the OutputHandler interface</p>
+
       </section>
     </div>
 

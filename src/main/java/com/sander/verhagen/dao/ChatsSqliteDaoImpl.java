@@ -52,7 +52,7 @@ public class ChatsSqliteDaoImpl implements ChatsDao
     {
         List<Chat> chats = new ArrayList<Chat>();
         Statement statement = connection.createStatement();
-        String sql = "SELECT * FROM Chats";
+        String sql = "SELECT * FROM Chats ORDER BY timestamp";
         ResultSet resultSet = statement.executeQuery(sql);
         while (resultSet.next())
         {

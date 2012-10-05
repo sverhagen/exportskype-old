@@ -14,30 +14,33 @@
 
 package com.sander.verhagen.trillian;
 
-import com.sander.verhagen.domain.Chat;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 /**
- * Session entity of <code>type=&quot;stop&quot;</code> in the Trillian XML log format.
+ * Test for {@link TrillianOutputHandler}.
  * 
  * @author Sander Verhagen
  */
-public class SessionStop extends Session
+public class TrillianOutputHandlerTest
 {
     /**
-     * Constructor.
-     * 
-     * @param chat
-     *        total chat ({@link Chat})
-     * @param to
-     *        user name that is to be treated as communication partner
+     * Test for <code>TrillianOutputHandler.testGetValidFileName</code>.
      */
-    public SessionStop(Chat chat, String to)
+    @Test
+    public void testGetValidFileName()
     {
-        super(chat, to);
+        String original;
+        String result;
+
+        original = "#sander.verhagen/$some.user;d2bee9fda29d99bc";
+        result = TrillianOutputHandler.getValidFileName(original);
+        assertEquals("#sander.verhagen$d2bee9fda29d99bc", result);
+
+        original = "#sander.verhagen/$457c96a25e9b9bf5";
+        result = TrillianOutputHandler.getValidFileName(original);
+        assertEquals("#sander.verhagen$457c96a25e9b9bf5", result);
     }
 
-    public String toXML()
-    {
-        return toXML("stop", getChat().getFinish());
-    }
 }

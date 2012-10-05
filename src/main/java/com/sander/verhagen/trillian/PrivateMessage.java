@@ -29,6 +29,8 @@ public class PrivateMessage implements XML
 
     private Message message;
 
+    private String to;
+
     /**
      * Constructor.
      * 
@@ -36,11 +38,14 @@ public class PrivateMessage implements XML
      *        total chat ({@link Chat})
      * @param message
      *        single message in chat ({@link Message})
+     * @param to
+     *        user name that is to be treated as communication partner
      */
-    public PrivateMessage(Chat chat, Message message)
+    public PrivateMessage(Chat chat, Message message, String to)
     {
         this.chat = chat;
         this.message = message;
+        this.to = to;
     }
 
     /**
@@ -57,7 +62,7 @@ public class PrivateMessage implements XML
     {
         String author = message.getAuthor();
         boolean incoming = chat.isIncoming(author);
-        String to = incoming ? chat.getHomeUser() : author;
+        String to = incoming ? chat.getHomeUser() : this.to;
         String from = incoming ? author : chat.getHomeUser();
         String fromDisplay = message.getAuthorDisplay();
         String type = incoming ? "incoming_privateMessage" : "outgoing_privateMessage";
@@ -70,9 +75,14 @@ public class PrivateMessage implements XML
         result.append("to=\"" + EscapeHelper.escape(to) + "\" ");
         result.append("from=\"" + EscapeHelper.escape(from) + "\" ");
         result.append("from_display=\"" + EscapeHelper.escape(fromDisplay) + "\" ");
-        result.append("text=\"" + EscapeHelper.escape(message.getBody()) + "\" ");
+        result.append("text=\"");
+        // TODO: explain this
+        if (incoming && !this.to.equals(author))
+        {
+            result.append(EscapeHelper.escape("[sent by " + fromDisplay + "] "));
+        }
+        result.append(EscapeHelper.escape(message.getBody()) + "\" ");
         result.append("/>");
         return result.toString();
     }
-
 }

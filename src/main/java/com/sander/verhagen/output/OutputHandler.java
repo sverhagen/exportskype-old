@@ -28,11 +28,18 @@ public interface OutputHandler
 {
 
     /**
-     * Handle output of Skype export.
+     * Handle output of Skype export for individual chats. (I.e. excluding group chats)
      * 
-     * @param qualifiedChats
-     *        chats mapped onto contacts
+     * @param mappedIndividualChats
+     *        chats mapped onto individual contacts
      */
-    void output(Map<String, List<Chat>> qualifiedChats);
+    void outputIndividual(Map<String, List<Chat>> mappedIndividualChats);
 
+    /**
+     * Handle output of Skype export for group chats.
+     * 
+     * @param groupChats
+     *        group chats
+     */
+    void outputGroups(List<Chat> groupChats);
 }

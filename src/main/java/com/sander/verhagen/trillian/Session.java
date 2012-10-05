@@ -25,15 +25,20 @@ abstract public class Session implements XML
 {
     private Chat chat;
 
+    private String to;
+
     /**
      * Constructor.
      * 
      * @param chat
      *        total chat ({@link Chat})
+     * @param to
+     *        user name that is to be treated as communication partner
      */
-    public Session(Chat chat)
+    public Session(Chat chat, String to)
     {
         this.chat = chat;
+        this.to = to;
     }
 
     /**
@@ -56,7 +61,7 @@ abstract public class Session implements XML
         result.append("type=\"" + type + "\" ");
         result.append("time=\"" + time + "\" ");
         result.append("medium=\"SKYPE\" ");
-        result.append("to=\"" + EscapeHelper.escape(chat.getTo()) + "\" ");
+        result.append("to=\"" + EscapeHelper.escape(this.to) + "\" ");
         result.append("from=\"" + EscapeHelper.escape(chat.getFrom()) + "\" ");
         result.append("/>");
         return result.toString();

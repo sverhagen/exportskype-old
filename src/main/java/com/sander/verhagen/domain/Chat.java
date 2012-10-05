@@ -19,6 +19,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sander.verhagen.trillian.Session;
+
 /**
  * Chat entity as pulled from the Skype database.
  * 
@@ -85,12 +87,23 @@ public class Chat
         {
             for (String possiblePartner : possiblePartners.split(" "))
             {
-                if (!possiblePartner.equals(homeUser))
+                if (!possiblePartner.equals(homeUser) && !partners.contains(possiblePartner))
                 {
                     partners.add(possiblePartner);
                 }
             }
         }
+    }
+
+    /**
+     * Whether this chat is a group chat, i.e. more than one partner, i.e. more than two
+     * participants.
+     * 
+     * @return <code>true</code> if a group chat; <code>false</code> if not a group chat
+     */
+    public boolean isGroupChat()
+    {
+        return partners.size() > 1;
     }
 
     /**
@@ -147,24 +160,25 @@ public class Chat
     }
 
     /**
-     * Get the contact under which this chat will be logged. It's the first partner in this chat.
-     * There may be more partners, they'll be somewhat ignored
+     * Get the contacts that were partners in this chat.
      * 
-     * @return contact under which to log
+     * @return contacts that were partners in chat
      */
-    public String getQualifiedContact()
+    public List<String> getPartners()
     {
-        return partners.get(0);
+        return partners;
     }
 
     /**
-     * Get the contact to which outgoing messages will go; see {@link #getQualifiedContact}.
+     * Get the contact to which outgoing messages will go. For now using the first partner, not sure
+     * if that's always desirable in multi-partner chats; really depends on where this is used for,
+     * see e.g. {@link Session#toXML}
      * 
      * @return contact to which outgoing
      */
     public String getTo()
     {
-        return getQualifiedContact();
+        return partners.get(0);
     }
 
     /**
@@ -195,6 +209,7 @@ public class Chat
      */
     public void addMessage(Message message)
     {
+        addPartners(message.getAuthor());
         messages.add(message);
     }
 

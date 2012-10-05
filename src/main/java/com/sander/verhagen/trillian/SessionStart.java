@@ -28,10 +28,12 @@ public class SessionStart extends Session
      * 
      * @param chat
      *        total chat ({@link Chat})
+     * @param to
+     *        user name that is to be treated as communication partner
      */
-    public SessionStart(Chat chat)
+    public SessionStart(Chat chat, String to)
     {
-        super(chat);
+        super(chat, to);
     }
 
     public String toXML()

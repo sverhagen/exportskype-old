@@ -14,6 +14,9 @@
 
 package com.sander.verhagen;
 
+import static org.apache.commons.collections.CollectionUtils.select;
+import static org.apache.commons.collections.CollectionUtils.selectRejected;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.Predicate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -61,6 +65,18 @@ public class ExportSkype
         new ExportSkype().execute();
     }
 
+    /**
+     * Predicate used to split out collections with group chats and individual chats.
+     */
+    private final class GroupChatPredicate implements Predicate
+    {
+        public boolean evaluate(Object subject)
+        {
+            return ((Chat) subject).isGroupChat();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
     private void execute()
     {
         DatabaseConnectionHelper connectionHelper = new DatabaseConnectionHelper();
@@ -73,10 +89,19 @@ public class ExportSkype
             String skypeName = getSkypeName();
             Chat.setHomeUser(skypeName);
 
-            Map<String, List<Chat>> qualifiedChats = getQualifiedChats();
+            Map<String, Chat> chats = populateChats();
+            populateMessages(chats);
+            Predicate predicate = new GroupChatPredicate();
+            List<Chat> groupChats = (List<Chat>) select(chats.values(), predicate);
+            List<Chat> individualChats = (List<Chat>) selectRejected(chats.values(), predicate);
+            // individualChats = new ArrayList<Chat>(chats.values());
+
+            Map<String, List<Chat>> mappedIndividualChats =
+                    populateMappedIndividualChats(individualChats);
 
             OutputHandler outputHandler = new TrillianOutputHandler();
-            outputHandler.output(qualifiedChats);
+            outputHandler.outputIndividual(mappedIndividualChats);
+            outputHandler.outputGroups(groupChats);
 
             log.info("All done");
         }
@@ -106,17 +131,40 @@ public class ExportSkype
     }
 
     /**
-     * Get qualified chats. Qualified means the chats are grouped per qualified contact. Each chat
-     * has aggregated its messages
+     * Convert a list of chats in a structure where chats are mapped onto contacts/partners.
      * 
-     * @return chats mapped onto contacts
+     * @param chats
+     *        chats with messages
+     * @return chats mapped onto contacts/partners
+     */
+    private Map<String, List<Chat>> populateMappedIndividualChats(List<Chat> chats)
+    {
+        Map<String, List<Chat>> mappedIndividualChats = new HashMap<String, List<Chat>>();
+        for (Chat chat : chats)
+        {
+            List<String> partners = chat.getPartners();
+            for (String partner : partners)
+            {
+                if (!mappedIndividualChats.containsKey(partner))
+                {
+                    mappedIndividualChats.put(partner, new ArrayList<Chat>());
+                }
+                mappedIndividualChats.get(partner).add(chat);
+            }
+        }
+        return mappedIndividualChats;
+    }
+
+    /**
+     * Get bare chats.
+     * 
+     * @return chats chats mapped onto chat names
      * @throws SQLException
      *         problem with database access
      */
-    private Map<String, List<Chat>> getQualifiedChats() throws SQLException
+    private Map<String, Chat> populateChats() throws SQLException
     {
         Map<String, Chat> chats = new HashMap<String, Chat>();
-        Map<String, List<Chat>> qualifiedChats = new HashMap<String, List<Chat>>();
         for (Chat chat : chatsDao.getChats())
         {
             chats.put(chat.getName(), chat);
@@ -127,18 +175,18 @@ public class ExportSkype
                         + " finish: " + chat.getFinish());
             }
 
-            String qualifiedContact = chat.getQualifiedContact();
-            if (!qualifiedChats.containsKey(qualifiedContact))
-            {
-                qualifiedChats.put(qualifiedContact, new ArrayList<Chat>());
-            }
-            qualifiedChats.get(qualifiedContact).add(chat);
         }
-
-        populateMessages(chats);
-        return qualifiedChats;
+        return chats;
     }
 
+    /**
+     * Add messages to chats.
+     * 
+     * @param chats
+     *        bare chats mapped onto chat names
+     * @throws SQLException
+     *         problem with database access
+     */
     private void populateMessages(Map<String, Chat> chats) throws SQLException
     {
         for (Message message : messagesDao.getMessages())

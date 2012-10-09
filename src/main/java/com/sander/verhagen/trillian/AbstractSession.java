@@ -21,7 +21,7 @@ import com.sander.verhagen.domain.Chat;
  * 
  * @author Sander Verhagen
  */
-abstract public class Session implements XML
+abstract public class AbstractSession implements XML
 {
     private Chat chat;
 
@@ -35,7 +35,7 @@ abstract public class Session implements XML
      * @param to
      *        user name that is to be treated as communication partner
      */
-    public Session(Chat chat, String to)
+    public AbstractSession(Chat chat, String to)
     {
         this.chat = chat;
         this.to = to;

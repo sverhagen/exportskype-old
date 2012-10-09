@@ -94,6 +94,8 @@ public class ExportSkype
             Predicate predicate = new GroupChatPredicate();
             List<Chat> groupChats = (List<Chat>) select(chats.values(), predicate);
             List<Chat> individualChats = (List<Chat>) selectRejected(chats.values(), predicate);
+
+            // Enable following line to copy group chats into individual chat logs
             // individualChats = new ArrayList<Chat>(chats.values());
 
             Map<String, List<Chat>> mappedIndividualChats =

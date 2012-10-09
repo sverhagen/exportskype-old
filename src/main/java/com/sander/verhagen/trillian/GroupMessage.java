@@ -15,29 +15,33 @@
 package com.sander.verhagen.trillian;
 
 import com.sander.verhagen.domain.Chat;
+import com.sander.verhagen.domain.Message;
 
 /**
- * Session entity of <code>type=&quot;stop&quot;</code> in the Trillian XML log format.
+ * Group message entity of in the Trillian XML log format.
  * 
  * @author Sander Verhagen
  */
-public class SessionStop extends AbstractSession
+public class GroupMessage extends AbstractMessage
 {
     /**
-     * Constructor.
+     * Constructor, see {@link AbstractMessage#AbstractMessage(Chat, Message, String)}.
      * 
      * @param chat
      *        total chat ({@link Chat})
+     * @param message
+     *        single message in chat ({@link Message})
      * @param to
      *        user name that is to be treated as communication partner
      */
-    public SessionStop(Chat chat, String to)
+    public GroupMessage(Chat chat, Message message, String to)
     {
-        super(chat, to);
+        super(chat, message, to);
     }
 
-    public String toXML()
+    @Override
+    protected String getMessageType()
     {
-        return toXML("stop", getChat().getFinish());
+        return "groupMessage";
     }
 }

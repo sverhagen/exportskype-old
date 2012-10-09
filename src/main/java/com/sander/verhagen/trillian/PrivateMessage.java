@@ -22,17 +22,10 @@ import com.sander.verhagen.domain.Message;
  * 
  * @author Sander Verhagen
  */
-public class PrivateMessage implements XML
+public class PrivateMessage extends AbstractMessage
 {
-
-    private Chat chat;
-
-    private Message message;
-
-    private String to;
-
     /**
-     * Constructor.
+     * Constructor, see {@link AbstractMessage#AbstractMessage(Chat, Message, String)}.
      * 
      * @param chat
      *        total chat ({@link Chat})
@@ -43,46 +36,12 @@ public class PrivateMessage implements XML
      */
     public PrivateMessage(Chat chat, Message message, String to)
     {
-        this.chat = chat;
-        this.message = message;
-        this.to = to;
+        super(chat, message, to);
     }
 
-    /**
-     * Format (private) message entity XML. <br/>
-     * <br/>
-     * Looks like: <code>&lt;message type=&quot;outgoing_privateMessage&quot;
-     * time=&quot;1348851843&quot; ms=&quot;0&quot; medium=&quot;SKYPE&quot;
-     * to=&quot;sander%2Everhagen&quot; from=&quot;some%2Euser&quot;
-     * from_display=&quot;Sander%20Verhagen&quot; text=&quot;Test!&quot;/&gt;</code>
-     * 
-     * @return entity XML
-     */
-    public String toXML()
+    @Override
+    protected String getMessageType()
     {
-        String author = message.getAuthor();
-        boolean incoming = chat.isIncoming(author);
-        String to = incoming ? chat.getHomeUser() : this.to;
-        String from = incoming ? author : chat.getHomeUser();
-        String fromDisplay = message.getAuthorDisplay();
-        String type = incoming ? "incoming_privateMessage" : "outgoing_privateMessage";
-
-        StringBuilder result = new StringBuilder();
-        result.append("<message ");
-        result.append("type=\"" + type + "\" ");
-        result.append("time=\"" + message.getTime() + "\" ");
-        result.append("medium=\"SKYPE\" ");
-        result.append("to=\"" + EscapeHelper.escape(to) + "\" ");
-        result.append("from=\"" + EscapeHelper.escape(from) + "\" ");
-        result.append("from_display=\"" + EscapeHelper.escape(fromDisplay) + "\" ");
-        result.append("text=\"");
-        // TODO: explain this
-        if (incoming && !this.to.equals(author))
-        {
-            result.append(EscapeHelper.escape("[sent by " + fromDisplay + "] "));
-        }
-        result.append(EscapeHelper.escape(message.getBody()) + "\" ");
-        result.append("/>");
-        return result.toString();
+        return "privateMessage";
     }
 }

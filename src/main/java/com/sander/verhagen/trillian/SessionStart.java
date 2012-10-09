@@ -21,7 +21,7 @@ import com.sander.verhagen.domain.Chat;
  * 
  * @author Sander Verhagen
  */
-public class SessionStart extends Session
+public class SessionStart extends AbstractSession
 {
     /**
      * Constructor.

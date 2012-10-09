@@ -19,7 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sander.verhagen.trillian.Session;
+import com.sander.verhagen.trillian.AbstractSession;
 
 /**
  * Chat entity as pulled from the Skype database.
@@ -172,7 +172,7 @@ public class Chat
     /**
      * Get the contact to which outgoing messages will go. For now using the first partner, not sure
      * if that's always desirable in multi-partner chats; really depends on where this is used for,
-     * see e.g. {@link Session#toXML}
+     * see e.g. {@link AbstractSession#toXML}
      * 
      * @return contact to which outgoing
      */

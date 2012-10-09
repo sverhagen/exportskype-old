@@ -110,7 +110,15 @@ public class TrillianOutputHandler implements OutputHandler
         categorizedXmlEntities.get(category).add(new SessionStart(chat, to));
         for (Message message : chat.getMessages())
         {
-            categorizedXmlEntities.get(category).add(new PrivateMessage(chat, message, to));
+            if (chat.isGroupChat())
+            {
+                categorizedXmlEntities.get(category).add(new GroupMessage(chat, message, to));
+            }
+            else
+            {
+                categorizedXmlEntities.get(category).add(new PrivateMessage(chat, message, to));
+            }
+
         }
         categorizedXmlEntities.get(category).add(new SessionStop(chat, to));
     }

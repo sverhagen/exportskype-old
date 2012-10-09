@@ -34,13 +34,4 @@ public interface MessagesDao
      *         problem with database access
      */
     List<Message> getMessages() throws SQLException;
-
-    /**
-     * Get number of all messages.
-     * 
-     * @return message count
-     * @throws SQLException
-     *         problem with database access
-     */
-    long getMessageCount() throws SQLException;
 }

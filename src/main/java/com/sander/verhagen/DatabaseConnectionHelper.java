@@ -99,12 +99,14 @@ public class DatabaseConnectionHelper
      * 
      * @return database URL as determined
      */
-    private String determineDatabaseUrl()
+    static String determineDatabaseUrl()
     {
         String userHome = System.getProperty("user.home");
 
-        File homeFolder = new File(userHome + "\\Application Data\\Skype");
+        File homeFolder =
+                new File("src\\test\\resources\\" + userHome + "\\Application Data\\Skype");
         String[] extensions = {"db"};
+        System.out.println(homeFolder.getAbsolutePath());
         Collection<File> files = FileUtils.listFiles(homeFolder, extensions, true);
         List<File> mainFiles = new ArrayList<File>();
         for (File file : files)

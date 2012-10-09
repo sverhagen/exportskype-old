@@ -43,18 +43,6 @@ public class MessagesSqliteDaoImpl implements MessagesDao
         this.connection = connection;
     }
 
-    public long getMessageCount() throws SQLException
-    {
-        Statement statement = connection.createStatement();
-        String sql = "SELECT count(*) FROM Messages ORDER BY timestamp";
-        ResultSet resultSet = statement.executeQuery(sql);
-        while (resultSet.next())
-        {
-            return resultSet.getInt("count(*)");
-        }
-        return 0;
-    }
-
     public List<Message> getMessages() throws SQLException
     {
         List<Message> messages = new ArrayList<Message>();

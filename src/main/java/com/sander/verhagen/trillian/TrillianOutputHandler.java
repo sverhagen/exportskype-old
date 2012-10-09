@@ -35,7 +35,7 @@ import com.sander.verhagen.output.OutputHandler;
  */
 public class TrillianOutputHandler implements OutputHandler
 {
-    private static final File FOLDER = new File("./output/SKYPE/Query");
+    private static final File PARENT_FOLDER = new File("./output/SKYPE");
 
     /**
      * Get XML entities grouped by categories, where the categories are the chat names. Given are
@@ -121,7 +121,8 @@ public class TrillianOutputHandler implements OutputHandler
     public void outputIndividual(Map<String, List<Chat>> mappedChats)
     {
         Map<String, List<XML>> categorizedXmlEntities = getCategorizedXmlEntities(mappedChats);
-        writeFiles(categorizedXmlEntities);
+        File folder = new File(PARENT_FOLDER, "Query");
+        writeFiles(categorizedXmlEntities, folder);
     }
 
     /**
@@ -130,7 +131,8 @@ public class TrillianOutputHandler implements OutputHandler
     public void outputGroups(List<Chat> groupChats)
     {
         Map<String, List<XML>> categorizedXmlEntities = getCategorizedXmlEntities(groupChats);
-        writeFiles(categorizedXmlEntities);
+        File folder = new File(PARENT_FOLDER, "Channel");
+        writeFiles(categorizedXmlEntities, folder);
     }
 
     /**
@@ -138,13 +140,16 @@ public class TrillianOutputHandler implements OutputHandler
      * 
      * @param categorizedXmlEntities
      *        XML entities mapped onto categories
+     * @param folder
+     *        folder for XML log files
      */
-    private void writeFiles(Map<String, List<XML>> categorizedXmlEntities)
+    private void writeFiles(Map<String, List<XML>> categorizedXmlEntities, File folder)
     {
         for (String category : categorizedXmlEntities.keySet())
         {
             String baseFileName = category;
-            writeFile(categorizedXmlEntities.get(category), baseFileName);
+            File file = new File(folder, baseFileName + ".xml");
+            writeFile(categorizedXmlEntities.get(category), file);
         }
     }
 
@@ -153,14 +158,13 @@ public class TrillianOutputHandler implements OutputHandler
      * 
      * @param xmlEntities
      *        XML entities to write
-     * @param originalBaseFileName
-     *        base file name to write to
+     * @param file
+     *        file to write to
      */
-    private void writeFile(List<XML> xmlEntities, String originalBaseFileName)
+    private void writeFile(List<XML> xmlEntities, File file)
     {
-        String baseFileName = new String(originalBaseFileName);
-        FileWriter file = createFile(baseFileName);
-        BufferedWriter writer = new BufferedWriter(file);
+        FileWriter fileWriter = createFile(file);
+        BufferedWriter writer = new BufferedWriter(fileWriter);
         try
         {
             for (XML xml : xmlEntities)
@@ -172,7 +176,7 @@ public class TrillianOutputHandler implements OutputHandler
         }
         catch (IOException exception)
         {
-            throw new RuntimeException("Problem writing file for " + baseFileName, exception);
+            throw new RuntimeException("Problem writing file for " + file, exception);
         }
     }
 
@@ -183,17 +187,16 @@ public class TrillianOutputHandler implements OutputHandler
      *        base file name (thus without extension)
      * @return file handle
      */
-    private FileWriter createFile(String baseFileName)
+    private FileWriter createFile(File file)
     {
-        FOLDER.mkdirs();
-        String fileName = FOLDER.getAbsolutePath() + "/" + baseFileName + ".xml";
+        file.getParentFile().mkdirs();
         try
         {
-            return new FileWriter(fileName);
+            return new FileWriter(file);
         }
         catch (IOException exception)
         {
-            throw new RuntimeException("Problem opening file " + fileName, exception);
+            throw new RuntimeException("Problem opening file " + file, exception);
         }
     }
 

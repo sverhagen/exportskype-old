@@ -15,10 +15,17 @@
 package com.sander.verhagen.frame;
 
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sander.verhagen.ExportSkype;
 
@@ -30,11 +37,14 @@ import com.sander.verhagen.ExportSkype;
 @SuppressWarnings("serial")
 public class ExportSkypeFrame extends JFrame
 {
+    private static Logger log = LoggerFactory.getLogger(ExportSkypeFrame.class);
+
     ExportSkypeFrame()
     {
         initializeWindow();
         add(new JLoggingTable());
         addWindowListener(new CloseWindowAdapter());
+        setIcon();
     }
 
     private void initializeWindow()
@@ -47,12 +57,32 @@ public class ExportSkypeFrame extends JFrame
         requestFocus();
     }
 
+    private void setIcon()
+    {
+        String name = "icon.png";
+        InputStream stream = getClass().getResourceAsStream(name);
+        try
+        {
+            Image image = ImageIO.read(stream);
+            setIconImage(image);
+        }
+        catch (IllegalArgumentException exception)
+        {
+            log.error("Could not find icon " + name, exception);
+        }
+        catch (IOException exception)
+        {
+            log.error("Problem reading icon " + name, exception);
+        }
+    }
+
     private final class CloseWindowAdapter extends WindowAdapter
     {
         @Override
         public void windowClosing(WindowEvent e)
         {
             dispose();
+            System.exit(1);
         }
     }
 

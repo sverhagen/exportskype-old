@@ -36,8 +36,8 @@ class LineWrapCellRenderer extends JTextArea implements TableCellRenderer
 {
     public LineWrapCellRenderer()
     {
-        setOpaque(true);
         setLineWrap(true);
+        setOpaque(true);
         setWrapStyleWord(true);
     }
 

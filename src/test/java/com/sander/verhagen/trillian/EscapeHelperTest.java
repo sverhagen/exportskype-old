@@ -14,12 +14,10 @@
 
 package com.sander.verhagen.trillian;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.Charset;
 
 import org.junit.Test;
 
@@ -57,6 +55,9 @@ public class EscapeHelperTest
         constructor.newInstance();
     }
 
+    /**
+     * Test that an unsupported encoding throws an exception.
+     */
     @Test
     public void testUnsupportedEncoding()
     {
@@ -69,6 +70,9 @@ public class EscapeHelperTest
         catch (RuntimeException exception)
         {
         }
-
+        finally
+        {
+            EscapeHelper.setEncoding("utf-8");
+        }
     }
 }

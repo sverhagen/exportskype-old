@@ -40,7 +40,7 @@ public class DatabaseConnectionHelperTest
     {
         String fileName = "src\\test\\resources\\myHome\\Application Data\\Skype\\my.user\\main.db";
         File file = new File(fileName);
-        System.setProperty("user.home", "myHome");
+        System.setProperty("user.home", "src\\test\\resources\\myHome");
         String string = DatabaseConnectionHelper.determineDatabaseUrl();
         assertEquals("jdbc:sqlite:" + file.getAbsolutePath(), string);
     }
@@ -51,7 +51,7 @@ public class DatabaseConnectionHelperTest
     @Test
     public void testDetermineDatabaseUrlNoDatabase()
     {
-        System.setProperty("user.home", "myHomeNoDatabase");
+        System.setProperty("user.home", "src\\test\\resources\\myHomeNoDatabase");
         try
         {
             DatabaseConnectionHelper.determineDatabaseUrl();
@@ -69,7 +69,7 @@ public class DatabaseConnectionHelperTest
     @Test
     public void testDetermineDatabaseUrlMultipleDatabases()
     {
-        System.setProperty("user.home", "myHomeMultipleDatabases");
+        System.setProperty("user.home", "src\\test\\resources\\myHomeMultipleDatabases");
         try
         {
             DatabaseConnectionHelper.determineDatabaseUrl();
@@ -91,7 +91,7 @@ public class DatabaseConnectionHelperTest
     @Test
     public void testConnection() throws SQLException
     {
-        System.setProperty("user.home", "myHome");
+        System.setProperty("user.home", "src\\test\\resources\\myHome");
         DatabaseConnectionHelper subject = new DatabaseConnectionHelper();
         Connection connection = subject.open();
         assertFalse(connection.isClosed());

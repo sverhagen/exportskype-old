@@ -61,6 +61,7 @@ abstract public class AbstractSession implements XML
         result.append("type=\"" + type + "\" ");
         result.append("time=\"" + time + "\" ");
         result.append("medium=\"SKYPE\" ");
+        // TODO: can it never happen that to and from end up being the same?
         result.append("to=\"" + EscapeHelper.escape(this.to) + "\" ");
         result.append("from=\"" + EscapeHelper.escape(chat.getFrom()) + "\" ");
         result.append("/>");

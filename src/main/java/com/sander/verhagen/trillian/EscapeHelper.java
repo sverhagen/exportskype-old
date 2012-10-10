@@ -22,8 +22,10 @@ import java.net.URLEncoder;
  * 
  * @author Sander Verhagen
  */
-public class EscapeHelper
+final public class EscapeHelper
 {
+    private static String encoding = "utf-8";
+
     /**
      * Hidden constructor.
      */
@@ -34,7 +36,9 @@ public class EscapeHelper
 
     /**
      * Escape the given string for use in Trillian XML log format.
-     * @param original original string
+     * 
+     * @param original
+     *        original string
      * @return escaped string
      */
     public static String escape(String original)
@@ -42,12 +46,23 @@ public class EscapeHelper
         String escaped = new String(original);
         try
         {
-            escaped = URLEncoder.encode(escaped, "utf-8");
+            escaped = URLEncoder.encode(escaped, encoding);
         }
         catch (UnsupportedEncodingException exception)
         {
             throw new RuntimeException(exception);
         }
         return escaped.replace("+", "%20");
+    }
+
+    /**
+     * Sets the desired encoding. For unit testing only
+     * 
+     * @param encoding
+     *        desired encoding
+     */
+    static void setEncoding(String encoding)
+    {
+        EscapeHelper.encoding = encoding;
     }
 }

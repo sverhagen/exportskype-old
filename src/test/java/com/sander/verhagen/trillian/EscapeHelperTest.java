@@ -16,6 +16,11 @@ package com.sander.verhagen.trillian;
 
 import static org.junit.Assert.*;
 
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.Charset;
+
 import org.junit.Test;
 
 /**
@@ -36,4 +41,34 @@ public class EscapeHelperTest
         assertEquals("How%20are%20you%3F", EscapeHelper.escape("How are you?"));
     }
 
+    /**
+     * Test for the private constructor of {@link EscapeHelper}. This is just to not having to keep
+     * track of missing code coverage due to code that isn't supposed to be executed in the first
+     * place
+     * 
+     * @throws Exception
+     *         something wrong
+     */
+    @Test
+    public void testPrivateConstructor() throws Exception
+    {
+        Constructor constructor = EscapeHelper.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        constructor.newInstance();
+    }
+
+    @Test
+    public void testUnsupportedEncoding()
+    {
+        try
+        {
+            EscapeHelper.setEncoding("should not exist");
+            EscapeHelper.escape("Test");
+            fail("should have given RuntimeException wrapping UnsupportedEncodingException");
+        }
+        catch (RuntimeException exception)
+        {
+        }
+
+    }
 }

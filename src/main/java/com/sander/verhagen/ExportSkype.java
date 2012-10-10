@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.Predicate;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sander.verhagen.dao.AccountsDao;
 import com.sander.verhagen.dao.AccountsSqliteDaoImpl;
@@ -40,30 +40,19 @@ import com.sander.verhagen.output.OutputHandler;
 import com.sander.verhagen.trillian.TrillianOutputHandler;
 
 /**
- * Main class and executable for exporting Skype chat history.
+ * Main class for exporting Skype chat history.
  * 
  * @author Sander Verhagen
  */
 public class ExportSkype
 {
-    private static Log log = LogFactory.getLog(ExportSkype.class);
+    private static Logger log = LoggerFactory.getLogger(ExportSkype.class);
 
     private AccountsDao accountsDao;
 
     private ChatsDao chatsDao;
 
     private MessagesDao messagesDao;
-
-    /**
-     * Main executable for exporting Skype chat history
-     * 
-     * @param args
-     *        arguments; none required
-     */
-    public static void main(String[] args)
-    {
-        new ExportSkype().execute();
-    }
 
     /**
      * Predicate used to split out collections with group chats and individual chats.
@@ -76,8 +65,11 @@ public class ExportSkype
         }
     }
 
+    /**
+     * Execute the actual Skype export.
+     */
     @SuppressWarnings("unchecked")
-    private void execute()
+    public void execute()
     {
         DatabaseConnectionHelper connectionHelper = new DatabaseConnectionHelper();
         Connection connection = connectionHelper.open();

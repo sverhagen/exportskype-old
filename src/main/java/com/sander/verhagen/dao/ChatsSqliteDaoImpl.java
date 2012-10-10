@@ -21,8 +21,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sander.verhagen.domain.Chat;
 
@@ -33,7 +33,7 @@ import com.sander.verhagen.domain.Chat;
  */
 public class ChatsSqliteDaoImpl implements ChatsDao
 {
-    private static Log log = LogFactory.getLog(ChatsSqliteDaoImpl.class);
+    private static Logger log = LoggerFactory.getLogger(ChatsSqliteDaoImpl.class);
 
     private Connection connection;
 

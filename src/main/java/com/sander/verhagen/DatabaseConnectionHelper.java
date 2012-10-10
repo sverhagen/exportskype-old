@@ -23,8 +23,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Some database-related helper functions.
@@ -33,7 +33,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class DatabaseConnectionHelper
 {
-    private static Log log = LogFactory.getLog(DatabaseConnectionHelper.class);
+    private static Logger log = LoggerFactory.getLogger(DatabaseConnectionHelper.class);
 
     private Connection connection;
 

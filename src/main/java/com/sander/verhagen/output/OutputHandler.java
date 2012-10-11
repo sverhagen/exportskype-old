@@ -31,7 +31,9 @@ public interface OutputHandler
      * Handle output of Skype export for individual chats. (I.e. excluding group chats)
      * 
      * @param mappedIndividualChats
-     *        chats mapped onto individual contacts
+     *        chats mapped onto individual contacts; this means there is a map entry for each
+     *        individual contact; the entry's key is the name of the individual contact; the entry's
+     *        value is a list of all chats of the individual contact
      */
     void outputIndividual(Map<String, List<Chat>> mappedIndividualChats);
 
@@ -39,7 +41,7 @@ public interface OutputHandler
      * Handle output of Skype export for group chats.
      * 
      * @param groupChats
-     *        group chats
+     *        list of all group chats
      */
     void outputGroups(List<Chat> groupChats);
 }

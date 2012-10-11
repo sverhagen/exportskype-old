@@ -14,10 +14,14 @@
 
 package com.sander.verhagen.frame;
 
+import java.awt.BorderLayout;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
@@ -30,8 +34,10 @@ import org.apache.log4j.varia.NullAppender;
  * @author Sander Verhagen
  */
 @SuppressWarnings("serial")
-public class JLoggingTable extends JTable
+public class JLoggingTable extends JPanel
 {
+    private static final int SMALL_COLUMN_WIDTH = 90;
+
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("EEE, MMM d");
 
     private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm:ss");
@@ -57,24 +63,40 @@ public class JLoggingTable extends JTable
         {
             return String.class;
         };
+
+        @Override
+        public boolean isCellEditable(int row, int column)
+        {
+            return false;
+        };
     };
+
+    private JTable table = new JTable(model);
+
+    private JScrollPane scrollPane = new JScrollPane(table,
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
     /**
      * Constructor.
      */
     public JLoggingTable()
     {
-        setModel(model);
         model.addColumn("Date");
         model.addColumn("Time");
         model.addColumn("Severity");
         model.addColumn("Description");
-        setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        getColumnModel().getColumn(0).setMaxWidth(120);
-        getColumnModel().getColumn(1).setMaxWidth(120);
-        getColumnModel().getColumn(2).setMaxWidth(120);
-        setDefaultRenderer(String.class, new LineWrapCellRenderer());
-        setShowGrid(false);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        table.getColumnModel().getColumn(0).setMinWidth(SMALL_COLUMN_WIDTH);
+        table.getColumnModel().getColumn(0).setMaxWidth(SMALL_COLUMN_WIDTH);
+        table.getColumnModel().getColumn(1).setMinWidth(SMALL_COLUMN_WIDTH);
+        table.getColumnModel().getColumn(1).setMaxWidth(SMALL_COLUMN_WIDTH);
+        table.getColumnModel().getColumn(2).setMinWidth(SMALL_COLUMN_WIDTH);
+        table.getColumnModel().getColumn(2).setMaxWidth(SMALL_COLUMN_WIDTH);
+        table.setDefaultRenderer(String.class, new LineWrapCellRenderer());
+        table.setShowGrid(false);
+        setLayout(new BorderLayout());
+        add(scrollPane);
         addRow(new Date(), "", "Initializing...");
         Logger.getRootLogger().addAppender(addRowAppender);
     }

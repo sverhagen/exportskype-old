@@ -14,15 +14,18 @@
 
 package com.sander.verhagen.frame;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.text.StyleConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,10 +44,30 @@ public class ExportSkypeFrame extends JFrame
 
     ExportSkypeFrame()
     {
-        initializeWindow();
         add(new JLoggingTable());
+        initializeStaticText();
+        initializeWindow();
         addWindowListener(new CloseWindowAdapter());
         setIcon();
+    }
+
+    private void initializeStaticText()
+    {
+        try
+        {
+            JHyperlinkTextPane textPane = new JHyperlinkTextPane();
+            textPane.addText("Licensed under the ");
+            textPane.addHyperlinkText("Apache License",
+                    "http://www.apache.org/licenses/LICENSE-2.0");
+            textPane.addText(", free and \"as-is\". More information on ");
+            textPane.addHyperlinkText("GitHub", "http://sverhagen.github.com/Export-Skype/");
+            textPane.setAlignment(StyleConstants.ALIGN_CENTER);
+            add(BorderLayout.SOUTH, textPane);
+        }
+        catch (URISyntaxException exception)
+        {
+            log.error("Cannot initialize static hyperlink text", exception);
+        }
     }
 
     private void initializeWindow()

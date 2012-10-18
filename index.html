@@ -47,6 +47,36 @@
 </ul>
 <p>The output (<code>./output/SKYPE</code> folder) can be copied into Trillian logs folder or used in conjunction with <a href="http://zalbee.intricus.net/immerge/" target="_blank">IMmerge</a>.</p>
 
+	<script type="text/javascript">
+		function toggleScreenShot()
+		{
+			var element = document.getElementById("screenshot");
+			var show = element.style.display == "none";
+			elementShow("screenshot", show);
+			elementShow("screenshotLabel", !show);
+		}
+		function elementShow(elementName, show)
+		{
+			var element = document.getElementById(elementName);
+			if( show )
+			{
+				element.style.display = "block";
+			}
+			else
+			{
+				element.style.display = "none";
+			}
+		}
+	</script>
+
+	<p>
+		<a id="screenshotLabel" href="javascript:toggleScreenShot();">Click here to see a screen shot</a>
+		<div id="screenshot" style="display: none;">
+			<a href="javascript:toggleScreenShot();"><img 
+				src="https://raw.github.com/sverhagen/Export-Skype/master/screenshot.png"
+				alt="Screen shot" title="Screen shot"></a></div>
+	</p>
+
 	<h2>Limitations</h2>
 
 <ul>

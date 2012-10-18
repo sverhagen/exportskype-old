@@ -4,3 +4,4 @@
 /target/
 /output/
 /dependency-reduced-pom.xml
+/*.log

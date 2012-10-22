@@ -63,7 +63,7 @@ public class ChatsSqliteDaoImpl implements ChatsDao
             }
             else
             {
-                log.info("Has no partners: chat " + chat.getName());
+                log.info("Has no partners: chat {}", chat.getName());
             }
         }
         return chats;

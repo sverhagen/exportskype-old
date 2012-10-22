@@ -78,6 +78,8 @@ public class ExportSkype
         messagesDao = new MessagesSqliteDaoImpl(connection);
         try
         {
+            log.info("Starting");
+
             String skypeName = getSkypeName();
             Chat.setHomeUser(skypeName);
 
@@ -119,8 +121,9 @@ public class ExportSkype
         String skypeName = skypeNames.get(0);
         if (skypeNames.size() > 1)
         {
-            log.info("Found more than one Skype account; only using first one (" + skypeName + ")");
+            log.info("Found more than one Skype account; only using first one ({})", skypeName);
         }
+        log.info("Using Skype account {}", skypeName);
         return skypeName;
     }
 
@@ -158,6 +161,7 @@ public class ExportSkype
      */
     private Map<String, Chat> populateChats() throws SQLException
     {
+        log.info("Processing all chats");
         Map<String, Chat> chats = new HashMap<String, Chat>();
         for (Chat chat : chatsDao.getChats())
         {
@@ -183,6 +187,7 @@ public class ExportSkype
      */
     private void populateMessages(Map<String, Chat> chats) throws SQLException
     {
+        log.info("Processing all messages");
         for (Message message : messagesDao.getMessages())
         {
             String chatName = message.getChatName();

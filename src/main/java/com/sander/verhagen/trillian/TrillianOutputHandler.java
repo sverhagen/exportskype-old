@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.sander.verhagen.domain.Chat;
 import com.sander.verhagen.domain.Message;
 import com.sander.verhagen.output.OutputHandler;
@@ -35,6 +38,8 @@ import com.sander.verhagen.output.OutputHandler;
  */
 public class TrillianOutputHandler implements OutputHandler
 {
+    private static Logger log = LoggerFactory.getLogger(TrillianOutputHandler.class);
+
     private static final File PARENT_FOLDER = new File("./output/SKYPE");
 
     /**
@@ -128,6 +133,8 @@ public class TrillianOutputHandler implements OutputHandler
      */
     public void outputIndividual(Map<String, List<Chat>> mappedChats)
     {
+        log.info("Handle Trillian output of Skype export chats for {} individuals",
+                mappedChats.size());
         Map<String, List<XML>> categorizedXmlEntities = getCategorizedXmlEntities(mappedChats);
         File folder = new File(PARENT_FOLDER, "Query");
         writeFiles(categorizedXmlEntities, folder);
@@ -138,6 +145,7 @@ public class TrillianOutputHandler implements OutputHandler
      */
     public void outputGroups(List<Chat> groupChats)
     {
+        log.info("Handle Trillian output of Skype export for {} group chats", groupChats.size());
         Map<String, List<XML>> categorizedXmlEntities = getCategorizedXmlEntities(groupChats);
         File folder = new File(PARENT_FOLDER, "Channel");
         writeFiles(categorizedXmlEntities, folder);

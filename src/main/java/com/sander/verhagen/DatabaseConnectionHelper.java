@@ -62,7 +62,7 @@ public class DatabaseConnectionHelper
         try
         {
             String url = determineDatabaseUrl();
-            log.info("Determined database URL: " + url);
+            log.info("Determined database URL: {}", url);
             connection = DriverManager.getConnection(url);
             return connection;
         }
